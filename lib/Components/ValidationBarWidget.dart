@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'file:///D:/Projects/Main%20Projects/flutter_pw_validator/lib/Utilities/SizeConfig.dart';
+import 'package:flutter_pw_validator/Utilities/SizeConfig.dart';
 
+//ValidationBarWidget that represent style of each one of them and shows under the TextField
 class ValidationBarComponent extends StatelessWidget {
   final Color color;
 
