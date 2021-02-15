@@ -17,7 +17,7 @@ class ConditionsHelper {
     };
   }
 
-  //Checks condition new value using and passed validator, sets that in map and return new value;
+  //Checks condition new value and passed validator, sets that in map and return new value;
   dynamic checkCondition(int userRequestedValue, Function validator,
       TextEditingController controller, String key, dynamic oldValue) {
     dynamic newValue;
