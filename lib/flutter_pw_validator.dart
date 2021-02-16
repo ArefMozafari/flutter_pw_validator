@@ -140,7 +140,6 @@ class _FlutterPwValidatorState extends State<FlutterPwValidator> {
               ],
             ),
           ),
-          // new Flexible(flex: 1, child: new Container()),
           new Flexible(
             flex: 7,
             child: new Column(
@@ -158,12 +157,14 @@ class _FlutterPwValidatorState extends State<FlutterPwValidator> {
                   if (entry.key == Strings.SPECIAL_CHARACTER)
                     value = widget.specialCharCount;
                   return new ValidationTextWidget(
-                      color: isFirstRun
-                          ? widget.defaultColor
-                          : entry.value
-                              ? widget.successColor
-                              : widget.failureColor,
-                      text: entry.key.replaceFirst("-", value.toString()));
+                    color: isFirstRun
+                        ? widget.defaultColor
+                        : entry.value
+                        ? widget.successColor
+                        : widget.failureColor,
+                    text: entry.key,
+                    value: value,
+                  );
                 }).toList()),
           )
         ],

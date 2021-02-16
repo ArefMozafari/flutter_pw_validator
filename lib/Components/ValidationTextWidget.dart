@@ -5,8 +5,9 @@ import 'package:flutter_pw_validator/Utilities/SizeConfig.dart';
 class ValidationTextWidget extends StatelessWidget {
   final Color color;
   final String text;
+  final int value;
 
-  ValidationTextWidget({@required this.color, @required this.text});
+  ValidationTextWidget({@required this.color, @required this.text, @required this.value});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +23,7 @@ class ValidationTextWidget extends StatelessWidget {
         ),
         Padding(
           padding: EdgeInsets.only(left: SizeConfig.width * 0.03),
-          child: new Text(text, style: new TextStyle(fontSize: SizeConfig.width * 0.04,color: color),),
+          child: new Text(text.replaceFirst("-", value.toString()), style: new TextStyle(fontSize: SizeConfig.width * 0.04,color: color),),
         )
       ],
     );
