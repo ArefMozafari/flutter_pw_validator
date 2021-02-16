@@ -2,7 +2,7 @@ name: flutter_pw_validator
 description: Flutter PW Validator package helps you to validate user entered password in your flutter app with your rules.
 version: 1.0.0
 author: Aref Mozafari<arefmozafari.78@gmail.com>
-homepage: https://github.com/XeniacDev/flutter_pw_validator.git
+homepage: https://github.com/ArefMozafari/flutter_pw_validator.git
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
