@@ -5,7 +5,7 @@
 
 <img src="https://user-images.githubusercontent.com/29792606/108348045-89a33480-71f6-11eb-99a9-bf56a09f0e26.gif" width="275"> <img src="https://user-images.githubusercontent.com/29792606/108348177-afc8d480-71f6-11eb-991c-34fad5bcf621.gif" width="275"> <img src="https://user-images.githubusercontent.com/29792606/108348154-a9d2f380-71f6-11eb-9c80-20400eba992e.gif" width="275">
 
-#
+</br>
 
 Flutter Pw Validator package helps you to validate sign in user-entered password with your rules.
 
