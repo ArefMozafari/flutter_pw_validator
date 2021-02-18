@@ -3,7 +3,7 @@
 ![License](https://img.shields.io/github/license/ArefMozafari/flutter_pw_validator?style=flat-square) ![Pub Version](https://img.shields.io/pub/v/flutter_pw_validator?style=flat-square) ![GitHub stars](https://img.shields.io/github/stars/ArefMozafari/flutter_pw_validator?style=flat-square)
 
 
-<!-- <img src="https://user-images.githubusercontent.com/29792606/108348045-89a33480-71f6-11eb-99a9-bf56a09f0e26.gif" width="250"> <img src="https://user-images.githubusercontent.com/29792606/108348177-afc8d480-71f6-11eb-991c-34fad5bcf621.gif" width="250"> <img src="https://user-images.githubusercontent.com/29792606/108348154-a9d2f380-71f6-11eb-9c80-20400eba992e.gif" width="250"> -->
+<img src="https://user-images.githubusercontent.com/29792606/108348045-89a33480-71f6-11eb-99a9-bf56a09f0e26.gif" width="250"> <img src="https://user-images.githubusercontent.com/29792606/108348177-afc8d480-71f6-11eb-991c-34fad5bcf621.gif" width="250"> <img src="https://user-images.githubusercontent.com/29792606/108348154-a9d2f380-71f6-11eb-9c80-20400eba992e.gif" width="250">
 
 </br>
 
