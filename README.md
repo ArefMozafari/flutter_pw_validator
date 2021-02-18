@@ -1,4 +1,4 @@
-# Flutter Pw Validator
+# Flutter Password Validator
 
 ![License](https://img.shields.io/github/license/ArefMozafari/flutter_pw_validator?style=flat-square) ![Pub Version](https://img.shields.io/pub/v/flutter_pw_validator?style=flat-square) ![GitHub stars](https://img.shields.io/github/stars/ArefMozafari/flutter_pw_validator?style=flat-square)
 
