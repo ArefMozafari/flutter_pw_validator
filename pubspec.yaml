@@ -3,7 +3,7 @@ description: Flutter PW Validator package helps you to validate user-entered pas
 version: 1.0.0
 author: Xeniac Development Team<xeniacteam@gmail.com>
 homepage: https://github.com/ArefMozafari/flutter_pw_validator.git
-maintainer: Aref Mozafari
+maintainer: Aref Mozafari (@ArefMozafari)
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
