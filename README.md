@@ -3,11 +3,11 @@
 ![License](https://img.shields.io/github/license/ArefMozafari/flutter_pw_validator?style=flat-square) ![Pub Version](https://img.shields.io/pub/v/flutter_pw_validator?style=flat-square) ![GitHub stars](https://img.shields.io/github/stars/ArefMozafari/flutter_pw_validator?style=flat-square)
 
 
-<img src="https://user-images.githubusercontent.com/29792606/108348045-89a33480-71f6-11eb-99a9-bf56a09f0e26.gif" width="250"> <img src="https://user-images.githubusercontent.com/29792606/108348177-afc8d480-71f6-11eb-991c-34fad5bcf621.gif" width="250"> <img src="https://user-images.githubusercontent.com/29792606/108348154-a9d2f380-71f6-11eb-9c80-20400eba992e.gif" width="250">
+<img src="https://user-images.githubusercontent.com/29792606/108348045-89a33480-71f6-11eb-99a9-bf56a09f0e26.gif" width="250"> <img src="https://user-images.githubusercontent.com/29792606/108348177-afc8d480-71f6-11eb-991c-34fad5bcf621.gif" width="250"> <img src="https://user-images.githubusercontent.com/29792606/108348154-a9d2f380-71f6-11eb-9c80-20400eba992e.gif" width="250"> <img src="https://user-images.githubusercontent.com/29792606/108406989-626d5700-7238-11eb-87bd-8e8b1adeb680.gif" width="250">
 
 </br>
 
-Flutter Password Validator package helps you to validate sign in user-entered password with your rules.
+Flutter Password Validator package helps you to validate sign-in user-entered passwords with your rules.
 
 
 ## How to use
