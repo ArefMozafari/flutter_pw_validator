@@ -91,7 +91,7 @@ class _FlutterPwValidatorState extends State<FlutterPwValidator> {
     if (conditionsCount == trueCondition) widget.onSuccess();
 
     //Rebuild the UI
-    setState(() {});
+    setState(() => null);
     trueCondition = 0;
   }
 

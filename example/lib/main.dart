@@ -41,12 +41,15 @@ class AppHome extends StatelessWidget {
                 child: new Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    new TextField(
-                        controller: controller,
-                        decoration: new InputDecoration(
-                            hintText: "Password",
-                            border: new OutlineInputBorder(
-                                borderSide: BorderSide()))),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal:2.0),
+                      child: new TextField(
+                          controller: controller,
+                          decoration: new InputDecoration(
+                              hintText: "Password",
+                              border: new OutlineInputBorder(
+                                  borderSide: BorderSide()))),
+                    ),
                     new SizedBox(
                       height: 5,
                     ),
