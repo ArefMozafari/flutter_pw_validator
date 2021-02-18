@@ -55,9 +55,9 @@ class AppHome extends StatelessWidget {
                     ),
                     new FlutterPwValidator(
                       controller: controller,
-                      minLength: 6,
+                      minLength: 8,
                       uppercaseCharCount: 2,
-                      numericCharCount: 2,
+                      numericCharCount: 3,
                       specialCharCount: 1,
                       width: 400,
                       height: 150,
