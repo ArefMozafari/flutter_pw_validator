@@ -7,7 +7,7 @@
 
 </br>
 
-Flutter Pw Validator package helps you to validate sign in user-entered password with your rules.
+Flutter Password Validator package helps you to validate sign in user-entered password with your rules.
 
 
 ## How to use
