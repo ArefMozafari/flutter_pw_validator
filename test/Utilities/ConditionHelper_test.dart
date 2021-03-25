@@ -3,7 +3,7 @@ import 'package:flutter_pw_validator/Utilities/ConditionsHelper.dart';
 
 void main() {
   group("Tests for setSelectedCondition() component", () {
-    ConditionsHelper conditionsHelper;
+    late ConditionsHelper conditionsHelper;
 
     setUp(() {
       conditionsHelper = new ConditionsHelper();
@@ -22,7 +22,7 @@ void main() {
       // act
       conditionsHelper.setSelectedCondition(
           minLength, uppercaseCharCount, numericCharCount, specialCharCount);
-      int actualResult = conditionsHelper.getter().length;
+      int actualResult = conditionsHelper.getter()!.length;
 
       // assert
       expect(actualResult, expectedResult);
@@ -41,7 +41,7 @@ void main() {
       // act
       conditionsHelper.setSelectedCondition(
           minLength, uppercaseCharCount, numericCharCount, specialCharCount);
-      int actualResult = conditionsHelper.getter().length;
+      int actualResult = conditionsHelper.getter()!.length;
 
       // assert
       expect(actualResult, expectedResult);

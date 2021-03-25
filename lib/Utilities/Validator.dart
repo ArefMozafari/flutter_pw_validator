@@ -1,7 +1,6 @@
 //Validator class hold the RegExp for requested validation
 
 class Validator {
-
   //Checks if password has minLength
   bool hasMinLength(String password, int minLength) {
     return password.length >= minLength ? true : false;

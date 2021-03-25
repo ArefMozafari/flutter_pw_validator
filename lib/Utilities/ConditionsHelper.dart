@@ -3,8 +3,7 @@ import 'package:flutter_pw_validator/Resource/Strings.dart';
 
 //This class helps to recognize user selected condition and check them
 class ConditionsHelper {
-
-  Map<String, bool> _selectedCondition;
+  Map<String, bool>? _selectedCondition;
 
   //Recognize user selected condition from widget constructor to put them on map with their value
   void setSelectedCondition(
@@ -31,12 +30,11 @@ class ConditionsHelper {
     if (newValue == null)
       return null;
     else if (newValue != oldValue) {
-      _selectedCondition[key] = newValue;
+      _selectedCondition![key] = newValue;
       return newValue;
     } else
       return oldValue;
-
   }
 
-  Map<String, bool> getter() => _selectedCondition;
+  Map<String, bool>? getter() => _selectedCondition;
 }

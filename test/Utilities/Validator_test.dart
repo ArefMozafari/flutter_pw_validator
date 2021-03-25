@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group("Tests for hasMinLength() component", () {
-    Validator validator;
+    late Validator validator;
 
     setUp(() {
       validator = new Validator();
@@ -55,7 +55,7 @@ void main() {
     });
   });
   group("Tests for hasMinUppercase() component", () {
-    Validator validator;
+    late Validator validator;
 
     setUp(() {
       validator = new Validator();
@@ -108,7 +108,7 @@ void main() {
   });
   group("Test for hasMinNumericChar() component", (){
 
-    Validator validator;
+    late Validator validator;
     setUp(() {
       validator = new Validator();
     });
@@ -154,7 +154,7 @@ void main() {
   });
   group("Test for hasMinSpecialChar() component", (){
 
-    Validator validator;
+    late Validator validator;
     setUp(() {
       validator = new Validator();
     });
