@@ -1,3 +1,7 @@
+## [1.2.1] - 2021/03/27
+
+* Support for _ (Underscore) as special character. Thanks to [adithyaakrishna](https://github.com/adithyaakrishna)
+
 ## [1.2.0] - 2021/03/25
 
 * Sound null safety added.
