@@ -1,4 +1,4 @@
-//Strings hold constant strings used across the package
+/// Strings hold constant strings used across the package
 class Strings {
   Strings._();
 
