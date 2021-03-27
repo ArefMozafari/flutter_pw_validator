@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-//MyColors hold constant colors used across the package
+/// MyColors hold constant colors used across the package
 class MyColors {
   MyColors._();
 
