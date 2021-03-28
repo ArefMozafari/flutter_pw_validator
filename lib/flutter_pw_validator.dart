@@ -38,10 +38,10 @@ class FlutterPwValidator extends StatefulWidget {
 }
 
 class _FlutterPwValidatorState extends State<FlutterPwValidator> {
-  //estimate that this the first run or not
+  /// Estimate that this the first run or not
   late bool isFirstRun;
 
-  //Variables that hold current condition states
+  /// Variables that hold current condition states
   dynamic hasMinLength,
       hasMinUppercaseChar,
       hasMinNumericChar,
@@ -51,9 +51,9 @@ class _FlutterPwValidatorState extends State<FlutterPwValidator> {
   ConditionsHelper conditionsHelper = new ConditionsHelper();
   Validator validator = new Validator();
 
-  //Get called each time that user entered a character in EditText
+  /// Get called each time that user entered a character in EditText
   void validate() {
-    //For each condition we called validators and get their new state
+    /// For each condition we called validators and get their new state
     hasMinLength = conditionsHelper.checkCondition(
         widget.minLength,
         validator.hasMinLength,
@@ -82,7 +82,7 @@ class _FlutterPwValidatorState extends State<FlutterPwValidator> {
         Strings.SPECIAL_CHARACTER,
         hasMinSpecialChar);
 
-    //Checks if all condition are true then call the user callback
+    /// Checks if all condition are true then call the user callback
     int conditionsCount = conditionsHelper.getter()!.length;
     int trueCondition = 0;
     for (bool value in conditionsHelper.getter()!.values) {
@@ -100,14 +100,14 @@ class _FlutterPwValidatorState extends State<FlutterPwValidator> {
     super.initState();
     isFirstRun = true;
 
-    //sets user entered value for each condition
+    /// Sets user entered value for each condition
     conditionsHelper.setSelectedCondition(
         widget.minLength,
         widget.uppercaseCharCount,
         widget.numericCharCount,
         widget.specialCharCount);
 
-    //Adds a listener callback on TextField to run after input get changed
+    /// Adds a listener callback on TextField to run after input get changed
     widget.controller.addListener(() {
       isFirstRun = false;
       validate();

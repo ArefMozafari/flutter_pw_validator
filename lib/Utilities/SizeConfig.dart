@@ -1,4 +1,4 @@
-//SizeConfig hold user requested with and height for global use
+/// SizeConfig hold user requested with and height for global use
 class SizeConfig {
   SizeConfig._();
 
