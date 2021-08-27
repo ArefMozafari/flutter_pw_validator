@@ -170,11 +170,4 @@ class _FlutterPwValidatorState extends State<FlutterPwValidator> {
       ),
     );
   }
-
-  //Dispose the TextField controller
-  @override
-  void dispose() {
-    widget.controller.dispose();
-    super.dispose();
-  }
 }
