@@ -64,3 +64,5 @@ new FlutterPwValidator(
 
 ## Example Project
 ### You can use this [example project](https://github.com/XeniacDev/flutter_pw_validator/tree/master/example) to see how it works.
+
+included in Hacktoberfest
