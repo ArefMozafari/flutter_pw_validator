@@ -68,10 +68,14 @@ If you want to translate this plugin simply implements the `FlutterPwValidatorSt
 
 ```dart
 class FrenchStrings implements FlutterPwValidatorStrings {
-  final String atLeast = "Au moins - caractères";
-  final String uppercaseLetters = "- Lettres majuscules";
-  final String numericCharacters = "- Chiffres";
-  final String specialCharacters = "- Caractères spéciaux";
+  @override
+  final String atLeast = 'Au moins - caractères';
+  @override
+  final String uppercaseLetters = '- Lettres majuscules';
+  @override
+  final String numericCharacters = '- Chiffres';
+  @override
+  final String specialCharacters = '- Caractères spéciaux';
 }
 
 FlutterPwValidator(
