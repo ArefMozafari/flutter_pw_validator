@@ -58,9 +58,29 @@ new FlutterPwValidator(
 |defaultColor|Takes default state color of the widget|Color(0xFFd3d3d3)|No|
 |successColor|Takes success state color of the widget|Color(0xFF2ee292)|No|
 |failureColor|Takes failure state color of the widget|Color(0xFFf9433e)|No|
+|strings|A class implementing the default `FlutterPwValidatorStrings`|English `FlutterPwValidatorStrings`|No|
 
 
 </br>
+
+### i18n
+If you want to translate this plugin simply implements the `FlutterPwValidatorStrings` class and pass it to the widget.
+
+```dart
+class FrenchStrings implements FlutterPwValidatorStrings {
+  final String atLeast = "Au moins - caractères";
+  final String uppercaseLetters = "- Lettres majuscules";
+  final String numericCharacters = "- Chiffres";
+  final String specialCharacters = "- Caractères spéciaux";
+}
+
+FlutterPwValidator(
+    // ...
+    // your config above
+    strings: FrenchStrings()
+)
+```
+
 
 ## Example Project
 ### You can use this [example project](https://github.com/XeniacDev/flutter_pw_validator/tree/master/example) to see how it works.
