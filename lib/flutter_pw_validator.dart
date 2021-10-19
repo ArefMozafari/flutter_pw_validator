@@ -3,11 +3,12 @@ library flutter_pw_validator;
 import 'package:flutter/material.dart';
 import 'package:flutter_pw_validator/Utilities/ConditionsHelper.dart';
 import 'package:flutter_pw_validator/Utilities/Validator.dart';
+
 import 'Components/ValidationBarWidget.dart';
 import 'Components/ValidationTextWidget.dart';
-import 'Utilities/SizeConfig.dart';
-import 'Resource/Strings.dart';
 import 'Resource/MyColors.dart';
+import 'Resource/Strings.dart';
+import 'Utilities/SizeConfig.dart';
 
 class FlutterPwValidator extends StatefulWidget {
   final int minLength, uppercaseCharCount, numericCharCount, specialCharCount;
@@ -53,34 +54,34 @@ class _FlutterPwValidatorState extends State<FlutterPwValidator> {
       hasMinSpecialChar;
 
   //Initial instances of ConditionHelper and Validator class
-  ConditionsHelper? conditionsHelper;
+  late final ConditionsHelper conditionsHelper;
   Validator validator = new Validator();
 
   /// Get called each time that user entered a character in EditText
   void validate() {
     /// For each condition we called validators and get their new state
-    hasMinLength = conditionsHelper!.checkCondition(
+    hasMinLength = conditionsHelper.checkCondition(
         widget.minLength,
         validator.hasMinLength,
         widget.controller,
         widget.translatedStrings.atLeast,
         hasMinLength);
 
-    hasMinUppercaseChar = conditionsHelper!.checkCondition(
+    hasMinUppercaseChar = conditionsHelper.checkCondition(
         widget.uppercaseCharCount,
         validator.hasMinUppercase,
         widget.controller,
         widget.translatedStrings.uppercaseLetters,
         hasMinUppercaseChar);
 
-    hasMinNumericChar = conditionsHelper!.checkCondition(
+    hasMinNumericChar = conditionsHelper.checkCondition(
         widget.numericCharCount,
         validator.hasMinNumericChar,
         widget.controller,
         widget.translatedStrings.numericCharacters,
         hasMinNumericChar);
 
-    hasMinSpecialChar = conditionsHelper!.checkCondition(
+    hasMinSpecialChar = conditionsHelper.checkCondition(
         widget.specialCharCount,
         validator.hasMinSpecialChar,
         widget.controller,
@@ -88,9 +89,9 @@ class _FlutterPwValidatorState extends State<FlutterPwValidator> {
         hasMinSpecialChar);
 
     /// Checks if all condition are true then call the user callback
-    int conditionsCount = conditionsHelper!.getter()!.length;
+    int conditionsCount = conditionsHelper.getter()!.length;
     int trueCondition = 0;
-    for (bool value in conditionsHelper!.getter()!.values) {
+    for (bool value in conditionsHelper.getter()!.values) {
       if (value == true) trueCondition += 1;
     }
     if (conditionsCount == trueCondition) widget.onSuccess();
@@ -108,7 +109,7 @@ class _FlutterPwValidatorState extends State<FlutterPwValidator> {
     conditionsHelper = ConditionsHelper(widget.translatedStrings);
 
     /// Sets user entered value for each condition
-    conditionsHelper!.setSelectedCondition(
+    conditionsHelper.setSelectedCondition(
         widget.minLength,
         widget.uppercaseCharCount,
         widget.numericCharCount,
@@ -136,12 +137,12 @@ class _FlutterPwValidatorState extends State<FlutterPwValidator> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // Iterate through the conditions map values to check if there is any true values then create green ValidationBarComponent.
-                for (bool value in conditionsHelper!.getter()!.values)
+                for (bool value in conditionsHelper.getter()!.values)
                   if (value == true)
                     new ValidationBarComponent(color: widget.successColor),
 
                 // Iterate through the conditions map values to check if there is any false values then create red ValidationBarComponent.
-                for (bool value in conditionsHelper!.getter()!.values)
+                for (bool value in conditionsHelper.getter()!.values)
                   if (value == false)
                     new ValidationBarComponent(color: widget.defaultColor)
               ],
@@ -153,7 +154,7 @@ class _FlutterPwValidatorState extends State<FlutterPwValidator> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
 
                 //Iterate through the condition map entries and generate new ValidationTextWidget for each item in Green or Red Color
-                children: conditionsHelper!.getter()!.entries.map((entry) {
+                children: conditionsHelper.getter()!.entries.map((entry) {
                   int? value;
                   if (entry.key == widget.translatedStrings.atLeast)
                     value = widget.minLength;
