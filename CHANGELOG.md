@@ -2,7 +2,7 @@
 
 * Support for i18n, to translate conditions. Thanks to [HugoHeneault](https://github.com/HugoHeneault)
   
-* ## [1.2.1] - 2021/03/27
+## [1.2.1] - 2021/03/27
 
 * Support for _ (Underscore) as special character. Thanks to [adithyaakrishna](https://github.com/adithyaakrishna)
 
