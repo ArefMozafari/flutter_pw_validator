@@ -3,16 +3,19 @@ import 'package:flutter_pw_validator/Resource/Strings.dart';
 
 /// This class helps to recognize user selected condition and check them
 class ConditionsHelper {
+  ConditionsHelper(this.strings);
+
+  final FlutterPwValidatorStrings strings;
   Map<String, bool>? _selectedCondition;
 
   /// Recognize user selected condition from widget constructor to put them on map with their value
   void setSelectedCondition(
       int minLength, uppercaseCharCount, numericCharCount, specialCharCount) {
     _selectedCondition = {
-      if (minLength > 0) Strings.AT_LEAST: false,
-      if (uppercaseCharCount > 0) Strings.UPPERCASE_LETTER: false,
-      if (numericCharCount > 0) Strings.NUMERIC_CHARACTER: false,
-      if (specialCharCount > 0) Strings.SPECIAL_CHARACTER: false
+      if (minLength > 0) strings.atLeast: false,
+      if (uppercaseCharCount > 0) strings.uppercaseLetters: false,
+      if (numericCharCount > 0) strings.numericCharacters: false,
+      if (specialCharCount > 0) strings.specialCharacters: false
     };
   }
 

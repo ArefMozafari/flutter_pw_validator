@@ -1,12 +1,13 @@
-import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter_pw_validator/Resource/Strings.dart';
 import 'package:flutter_pw_validator/Utilities/ConditionsHelper.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group("Tests for setSelectedCondition() component", () {
     late ConditionsHelper conditionsHelper;
 
     setUp(() {
-      conditionsHelper = new ConditionsHelper();
+      conditionsHelper = new ConditionsHelper(FlutterPwValidatorStrings());
     });
 
     test('Should _selectedCondition.length==2 when we have 2 condition > 0',
