@@ -1,3 +1,7 @@
+## [1.4.0+1] - 2022/01/27
+
+* Readme Updated
+
 ## [1.4.0] - 2022/01/27
 
 * New Feature: Added an OnFail callback that gets called everytime the password doesn't match.
