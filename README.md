@@ -54,7 +54,8 @@ new FlutterPwValidator(
 |specialCharCount|Takes minimum special character count that has to include in the password|0|No|
 |width|Takes the widget width|null|Yes|
 |height|Takes the widget height|null|Yes|
-|onSuccess|Takes a void callback function that runs when the password is matched with condition(s)|null|Yes|
+|onSuccess|A void callback function that runs when the password is matched with the condition(s)|null|Yes|
+|onFail|A void callback that gets called everytime the password doesn't match with the condition(s)|null|No|
 |defaultColor|Takes default state color of the widget|Color(0xFFd3d3d3)|No|
 |successColor|Takes success state color of the widget|Color(0xFF2ee292)|No|
 |failureColor|Takes failure state color of the widget|Color(0xFFf9433e)|No|

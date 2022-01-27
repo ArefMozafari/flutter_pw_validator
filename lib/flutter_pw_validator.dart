@@ -15,6 +15,7 @@ class FlutterPwValidator extends StatefulWidget {
   final Color defaultColor, successColor, failureColor;
   final double width, height;
   final Function onSuccess;
+  final Function? onFail;
   final TextEditingController controller;
   final FlutterPwValidatorStrings? strings;
 
@@ -30,7 +31,8 @@ class FlutterPwValidator extends StatefulWidget {
       this.defaultColor = MyColors.gray,
       this.successColor = MyColors.green,
       this.failureColor = MyColors.red,
-      this.strings}) {
+      this.strings,
+      this.onFail}) {
     //Initial entered size for global use
     SizeConfig.width = width;
     SizeConfig.height = height;
@@ -88,13 +90,15 @@ class _FlutterPwValidatorState extends State<FlutterPwValidator> {
         widget.translatedStrings.specialCharacters,
         hasMinSpecialChar);
 
-    /// Checks if all condition are true then call the user callback
+    /// Checks if all condition are true then call the onSuccess and if not, calls onFail method
     int conditionsCount = conditionsHelper.getter()!.length;
     int trueCondition = 0;
     for (bool value in conditionsHelper.getter()!.values) {
       if (value == true) trueCondition += 1;
     }
-    if (conditionsCount == trueCondition) widget.onSuccess();
+    if (conditionsCount == trueCondition)
+      widget.onSuccess();
+    else if (widget.onFail != null) widget.onFail!();
 
     //Rebuild the UI
     setState(() => null);

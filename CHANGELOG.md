@@ -1,3 +1,8 @@
+## [1.4.0] - 2022/01/27
+
+* New Feature: Added an OnFail callback that gets called everytime the password doesn't match.
+* Update example project
+
 ## [1.3.0] - 2021/10/23
 
 * Support for i18n, to translate conditions. Thanks to [HugoHeneault](https://github.com/HugoHeneault)
