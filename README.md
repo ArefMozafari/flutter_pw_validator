@@ -15,7 +15,7 @@ Flutter Password Validator package helps you to validate sign-in user-entered pa
 #### Add it to your package's pubspec.yaml file:
 ```yml
 dependencies:
-  flutter_pw_validator: ^1.2.1
+  flutter_pw_validator: ^1.4.0+1
 ```
 ### 2- Install it
 #### Install packages from the command line:
@@ -41,7 +41,8 @@ new FlutterPwValidator(
     specialCharCount: 1,
     width: 400,
     height: 150,
-    onSuccess: yourCallbackFunction
+    onSuccess: yourCallbackFunction,
+    onFail: yourCallbackFunction
 )
 ```
 ### Properties
@@ -54,7 +55,8 @@ new FlutterPwValidator(
 |specialCharCount|Takes minimum special character count that has to include in the password|0|No|
 |width|Takes the widget width|null|Yes|
 |height|Takes the widget height|null|Yes|
-|onSuccess|Takes a void callback function that runs when the password is matched with condition(s)|null|Yes|
+|onSuccess|A void callback function that runs when the password is matched with the condition(s)|null|Yes|
+|onFail|A void callback that gets called everytime the password doesn't match with the condition(s)|null|No|
 |defaultColor|Takes default state color of the widget|Color(0xFFd3d3d3)|No|
 |successColor|Takes success state color of the widget|Color(0xFF2ee292)|No|
 |failureColor|Takes failure state color of the widget|Color(0xFFf9433e)|No|
