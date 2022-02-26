@@ -113,6 +113,9 @@ class _FlutterPwValidatorState extends State<FlutterPwValidator> {
       widget.onSuccess();
     else if (widget.onFail != null) widget.onFail!();
 
+    //To prevent from calling the setState() after dispose()
+    if(!mounted) return;
+
     //Rebuild the UI
     setState(() => null);
     trueCondition = 0;
@@ -138,6 +141,11 @@ class _FlutterPwValidatorState extends State<FlutterPwValidator> {
       isFirstRun = false;
       validate();
     });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
