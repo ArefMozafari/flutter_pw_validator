@@ -114,7 +114,7 @@ class _FlutterPwValidatorState extends State<FlutterPwValidator> {
     else if (widget.onFail != null) widget.onFail!();
 
     //To prevent from calling the setState() after dispose()
-    if(!mounted) return;
+    if (!mounted) return;
 
     //Rebuild the UI
     setState(() => null);

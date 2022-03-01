@@ -1,3 +1,7 @@
+## [1.4.2] - 2022-03-01
+
+* New Feature: Validation for normal letters. Thanks to [jeffersonmello](https://github.com/jeffersonmello)
+
 ## [1.4.1] - 2022/02/10
 
 * BUG FIX: [setState() called after dispose()](https://github.com/ArefMozafari/flutter_pw_validator/issues/16). Thanks to [Money1998](https://github.com/Money1998)
