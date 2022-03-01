@@ -106,14 +106,15 @@ void main() {
       expect(actualResult, expectedResult);
     });
   });
-  group("Test for hasMinNumericChar() component", (){
-
+  group("Test for hasMinNumericChar() component", () {
     late Validator validator;
     setUp(() {
       validator = new Validator();
     });
 
-    test("Should return True when numericCount is 2 and password has 2 numeric character", (){
+    test(
+        "Should return True when numericCount is 2 and password has 2 numeric character",
+        () {
       // arrange
       String password = "sdsdlkl2l;l;2";
       int numericCount = 2;
@@ -126,7 +127,9 @@ void main() {
       expect(actualResult, expectedResult);
     });
 
-    test("Should return False when numericCount is 5 and password has 3 numeric character", (){
+    test(
+        "Should return False when numericCount is 5 and password has 3 numeric character",
+        () {
       // arrange
       String password = "4sdsdlkl2l;l;2";
       int numericCount = 5;
@@ -139,7 +142,9 @@ void main() {
       expect(actualResult, expectedResult);
     });
 
-    test("Should return True when numericCount is 3 and password has 5 numeric character", (){
+    test(
+        "Should return True when numericCount is 3 and password has 5 numeric character",
+        () {
       // arrange
       String password = "4sdsdlkl2l;l;2iiiis1kkksd9";
       int numericCount = 3;
@@ -152,14 +157,15 @@ void main() {
       expect(actualResult, expectedResult);
     });
   });
-  group("Test for hasMinSpecialChar() component", (){
-
+  group("Test for hasMinSpecialChar() component", () {
     late Validator validator;
     setUp(() {
       validator = new Validator();
     });
 
-    test("Should return True when specialCount is 2 and password has 2 special character", (){
+    test(
+        "Should return True when specialCount is 2 and password has 2 special character",
+        () {
       // arrange
       String password = "aaaaaa@aaaa@";
       int specialCount = 2;
@@ -172,7 +178,9 @@ void main() {
       expect(actualResult, expectedResult);
     });
 
-    test("Should return False when specialCount is 5 and password has 3 special character", (){
+    test(
+        "Should return False when specialCount is 5 and password has 3 special character",
+        () {
       // arrange
       String password = "#aaaaaa@aaaa@";
       int specialCount = 5;
@@ -185,7 +193,9 @@ void main() {
       expect(actualResult, expectedResult);
     });
 
-    test("Should return True when specialCount is 3 and password has 5 special character", (){
+    test(
+        "Should return True when specialCount is 3 and password has 5 special character",
+        () {
       // arrange
       String password = "#aaaaaa@aaaa-bbbb/ssss!";
       int specialCount = 3;
@@ -193,6 +203,58 @@ void main() {
 
       // act
       bool actualResult = validator.hasMinSpecialChar(password, specialCount);
+
+      // assert
+      expect(actualResult, expectedResult);
+    });
+  });
+
+  group("Test for hasMinNormalChar() component", () {
+    late Validator validator;
+    setUp(() {
+      validator = new Validator();
+    });
+
+    test(
+        "Should return True when numericCount is 3, uppercaseCount 1 and password has 3 normal character",
+        () {
+      // arrange
+      String password = "A123aa";
+      int normalCharCount = 3;
+      bool expectedResult = true;
+
+      // act
+      bool actualResult = validator.hasMinNormalChar(password, normalCharCount);
+
+      // assert
+      expect(actualResult, expectedResult);
+    });
+
+    test(
+        "Should return False when normalCharCount is 2 and password has 1 normal character",
+        () {
+      // arrange
+      String password = "#123@45";
+      int normalCharCount = 2;
+      bool expectedResult = false;
+
+      // act
+      bool actualResult = validator.hasMinNormalChar(password, normalCharCount);
+
+      // assert
+      expect(actualResult, expectedResult);
+    });
+
+    test(
+        "Should return True when normalCharCount is 3 and password has 5 normal character",
+        () {
+      // arrange
+      String password = "#aAa123@aA";
+      int normalCharCount = 3;
+      bool expectedResult = true;
+
+      // act
+      bool actualResult = validator.hasMinNormalChar(password, normalCharCount);
 
       // assert
       expect(actualResult, expectedResult);
