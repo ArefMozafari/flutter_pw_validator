@@ -18,6 +18,12 @@ class Validator {
     return password.contains(new RegExp(pattern));
   }
 
+  /// Checks if password has at least uppercaseCount uppercase letter matches
+  bool hasMinLowercase(String password, int lowercaseCount) {
+    String pattern = '^(.*?[a-z]){' + lowercaseCount.toString() + ',}';
+    return password.contains(new RegExp(pattern));
+  }
+
   /// Checks if password has at least numericCount numeric character matches
   bool hasMinNumericChar(String password, int numericCount) {
     String pattern = '^(.*?[0-9]){' + numericCount.toString() + ',}';
