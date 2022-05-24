@@ -56,6 +56,7 @@ class AppHome extends StatelessWidget {
                     controller: controller,
                     minLength: 8,
                     uppercaseCharCount: 2,
+                    lowercaseCharCount: 1,
                     numericCharCount: 3,
                     specialCharCount: 1,
                     normalCharCount: 3,

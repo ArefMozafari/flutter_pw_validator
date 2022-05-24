@@ -18,7 +18,7 @@ class Validator {
     return password.contains(new RegExp(pattern));
   }
 
-  /// Checks if password has at least uppercaseCount uppercase letter matches
+  /// Checks if password has at least lowercaseCount uppercase letter matches
   bool hasMinLowercase(String password, int lowercaseCount) {
     String pattern = '^(.*?[a-z]){' + lowercaseCount.toString() + ',}';
     return password.contains(new RegExp(pattern));

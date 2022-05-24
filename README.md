@@ -37,6 +37,7 @@ new FlutterPwValidator(
     controller: _passwordController,
     minLength: 6,
     uppercaseCharCount: 2,
+    lowercaseCharCount: 1,
     numericCharCount: 3,
     specialCharCount: 1,
     width: 400,
@@ -51,6 +52,7 @@ new FlutterPwValidator(
 |controller|Takes your password TextField controller|null|Yes|
 |minLength|Takes total minimum length of password|null|Yes|
 |uppercaseCharCount|Takes minimum uppercase character count that has to include in the password|0|No|
+|lowercaseCharCount|Takes minimum lowercase character count that has to include in the password|0|No|
 |numericCharCount|Takes minimum numeric character count that has to include in the password|0|No|
 |specialCharCount|Takes minimum special character count that has to include in the password|0|No|
 |width|Takes the widget width|null|Yes|
