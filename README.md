@@ -15,7 +15,7 @@ Flutter Password Validator package helps you to validate sign-in user-entered pa
 #### Add it to your package's pubspec.yaml file:
 ```yml
 dependencies:
-  flutter_pw_validator: ^1.4.2
+  flutter_pw_validator: <latest>
 ```
 ### 2- Install it
 #### Install packages from the command line:
