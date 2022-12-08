@@ -1,3 +1,8 @@
+## [1.5.0] - 2022-12-08
+
+* New Feature: Add Key property to access to the validate function (See the example)
+* chore: Update gradle, kotlin, flutter version and the example app
+
 ## [1.4.2] - 2022-03-01
 
 * New Feature: Validation for normal letters. Thanks to [jeffersonmello](https://github.com/jeffersonmello)

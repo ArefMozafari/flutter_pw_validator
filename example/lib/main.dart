@@ -27,6 +27,9 @@ class MyApp extends StatelessWidget {
 class AppHome extends StatelessWidget {
   final TextEditingController controller = new TextEditingController();
 
+  ///Passing a key to access the validate function
+  final GlobalKey<FlutterPwValidatorState> validatorKey = GlobalKey<FlutterPwValidatorState>();
+
   @override
   Widget build(BuildContext context) {
     return new Stack(children: [
@@ -53,6 +56,7 @@ class AppHome extends StatelessWidget {
                     height: 5,
                   ),
                   new FlutterPwValidator(
+                    key: validatorKey,
                     controller: controller,
                     minLength: 8,
                     uppercaseCharCount: 2,

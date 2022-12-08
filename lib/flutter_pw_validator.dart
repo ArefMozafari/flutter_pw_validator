@@ -22,6 +22,7 @@ class FlutterPwValidator extends StatefulWidget {
   final Function? onFail;
   final TextEditingController controller;
   final FlutterPwValidatorStrings? strings;
+  final Key? key;
 
   FlutterPwValidator(
       {required this.width,
@@ -37,76 +38,78 @@ class FlutterPwValidator extends StatefulWidget {
       this.successColor = MyColors.green,
       this.failureColor = MyColors.red,
       this.strings,
-      this.onFail}) {
+      this.onFail,
+      this.key}) {
     //Initial entered size for global use
     SizeConfig.width = width;
     SizeConfig.height = height;
   }
 
   @override
-  State<StatefulWidget> createState() => new _FlutterPwValidatorState();
+  State<StatefulWidget> createState() => new FlutterPwValidatorState();
 
   FlutterPwValidatorStrings get translatedStrings =>
       this.strings ?? FlutterPwValidatorStrings();
 }
 
-class _FlutterPwValidatorState extends State<FlutterPwValidator> {
+@protected
+class FlutterPwValidatorState extends State<FlutterPwValidator> {
   /// Estimate that this the first run or not
-  late bool isFirstRun;
+  late bool _isFirstRun;
 
   /// Variables that hold current condition states
-  dynamic hasMinLength,
-      hasMinNormalChar,
-      hasMinUppercaseChar,
-      hasMinNumericChar,
-      hasMinSpecialChar;
+  dynamic _hasMinLength,
+      _hasMinNormalChar,
+      _hasMinUppercaseChar,
+      _hasMinNumericChar,
+      _hasMinSpecialChar;
 
   //Initial instances of ConditionHelper and Validator class
-  late final ConditionsHelper conditionsHelper;
-  Validator validator = new Validator();
+  late final ConditionsHelper _conditionsHelper;
+  Validator _validator = new Validator();
 
   /// Get called each time that user entered a character in EditText
   void validate() {
     /// For each condition we called validators and get their new state
-    hasMinLength = conditionsHelper.checkCondition(
+    _hasMinLength = _conditionsHelper.checkCondition(
         widget.minLength,
-        validator.hasMinLength,
+        _validator.hasMinLength,
         widget.controller,
         widget.translatedStrings.atLeast,
-        hasMinLength);
+        _hasMinLength);
 
-    hasMinNormalChar = conditionsHelper.checkCondition(
+    _hasMinNormalChar = _conditionsHelper.checkCondition(
         widget.normalCharCount,
-        validator.hasMinNormalChar,
+        _validator.hasMinNormalChar,
         widget.controller,
         widget.translatedStrings.normalLetters,
-        hasMinNormalChar);
+        _hasMinNormalChar);
 
-    hasMinUppercaseChar = conditionsHelper.checkCondition(
+    _hasMinUppercaseChar = _conditionsHelper.checkCondition(
         widget.uppercaseCharCount,
-        validator.hasMinUppercase,
+        _validator.hasMinUppercase,
         widget.controller,
         widget.translatedStrings.uppercaseLetters,
-        hasMinUppercaseChar);
+        _hasMinUppercaseChar);
 
-    hasMinNumericChar = conditionsHelper.checkCondition(
+    _hasMinNumericChar = _conditionsHelper.checkCondition(
         widget.numericCharCount,
-        validator.hasMinNumericChar,
+        _validator.hasMinNumericChar,
         widget.controller,
         widget.translatedStrings.numericCharacters,
-        hasMinNumericChar);
+        _hasMinNumericChar);
 
-    hasMinSpecialChar = conditionsHelper.checkCondition(
+    _hasMinSpecialChar = _conditionsHelper.checkCondition(
         widget.specialCharCount,
-        validator.hasMinSpecialChar,
+        _validator.hasMinSpecialChar,
         widget.controller,
         widget.translatedStrings.specialCharacters,
-        hasMinSpecialChar);
+        _hasMinSpecialChar);
 
     /// Checks if all condition are true then call the onSuccess and if not, calls onFail method
-    int conditionsCount = conditionsHelper.getter()!.length;
+    int conditionsCount = _conditionsHelper.getter()!.length;
     int trueCondition = 0;
-    for (bool value in conditionsHelper.getter()!.values) {
+    for (bool value in _conditionsHelper.getter()!.values) {
       if (value == true) trueCondition += 1;
     }
     if (conditionsCount == trueCondition)
@@ -124,12 +127,12 @@ class _FlutterPwValidatorState extends State<FlutterPwValidator> {
   @override
   void initState() {
     super.initState();
-    isFirstRun = true;
+    _isFirstRun = true;
 
-    conditionsHelper = ConditionsHelper(widget.translatedStrings);
+    _conditionsHelper = ConditionsHelper(widget.translatedStrings);
 
     /// Sets user entered value for each condition
-    conditionsHelper.setSelectedCondition(
+    _conditionsHelper.setSelectedCondition(
         widget.minLength,
         widget.normalCharCount,
         widget.uppercaseCharCount,
@@ -138,7 +141,7 @@ class _FlutterPwValidatorState extends State<FlutterPwValidator> {
 
     /// Adds a listener callback on TextField to run after input get changed
     widget.controller.addListener(() {
-      isFirstRun = false;
+      _isFirstRun = false;
       validate();
     });
   }
@@ -163,12 +166,12 @@ class _FlutterPwValidatorState extends State<FlutterPwValidator> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // Iterate through the conditions map values to check if there is any true values then create green ValidationBarComponent.
-                for (bool value in conditionsHelper.getter()!.values)
+                for (bool value in _conditionsHelper.getter()!.values)
                   if (value == true)
                     new ValidationBarComponent(color: widget.successColor),
 
                 // Iterate through the conditions map values to check if there is any false values then create red ValidationBarComponent.
-                for (bool value in conditionsHelper.getter()!.values)
+                for (bool value in _conditionsHelper.getter()!.values)
                   if (value == false)
                     new ValidationBarComponent(color: widget.defaultColor)
               ],
@@ -180,7 +183,7 @@ class _FlutterPwValidatorState extends State<FlutterPwValidator> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
 
                 //Iterate through the condition map entries and generate new ValidationTextWidget for each item in Green or Red Color
-                children: conditionsHelper.getter()!.entries.map((entry) {
+                children: _conditionsHelper.getter()!.entries.map((entry) {
                   int? value;
                   if (entry.key == widget.translatedStrings.atLeast)
                     value = widget.minLength;
@@ -193,7 +196,7 @@ class _FlutterPwValidatorState extends State<FlutterPwValidator> {
                   if (entry.key == widget.translatedStrings.specialCharacters)
                     value = widget.specialCharCount;
                   return new ValidationTextWidget(
-                    color: isFirstRun
+                    color: _isFirstRun
                         ? widget.defaultColor
                         : entry.value
                             ? widget.successColor
