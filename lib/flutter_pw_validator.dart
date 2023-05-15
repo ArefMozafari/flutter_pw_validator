@@ -14,6 +14,7 @@ class FlutterPwValidator extends StatefulWidget {
   final int minLength,
       normalCharCount,
       uppercaseCharCount,
+      lowercaseCharCount,
       numericCharCount,
       specialCharCount;
   final Color defaultColor, successColor, failureColor;
@@ -31,6 +32,7 @@ class FlutterPwValidator extends StatefulWidget {
       required this.onSuccess,
       required this.controller,
       this.uppercaseCharCount = 0,
+      this.lowercaseCharCount = 0,
       this.numericCharCount = 0,
       this.specialCharCount = 0,
       this.normalCharCount = 0,
@@ -61,6 +63,7 @@ class FlutterPwValidatorState extends State<FlutterPwValidator> {
   dynamic _hasMinLength,
       _hasMinNormalChar,
       _hasMinUppercaseChar,
+      _hasMinLowercaseChar,
       _hasMinNumericChar,
       _hasMinSpecialChar;
 
@@ -91,6 +94,13 @@ class FlutterPwValidatorState extends State<FlutterPwValidator> {
         widget.controller,
         widget.translatedStrings.uppercaseLetters,
         _hasMinUppercaseChar);
+
+    _hasMinLowercaseChar = _conditionsHelper.checkCondition(
+        widget.lowercaseCharCount,
+        _validator.hasMinLowercaseChar,
+        widget.controller,
+        widget.translatedStrings.lowercaseLetters,
+        _hasMinLowercaseChar);
 
     _hasMinNumericChar = _conditionsHelper.checkCondition(
         widget.numericCharCount,
@@ -136,6 +146,7 @@ class FlutterPwValidatorState extends State<FlutterPwValidator> {
         widget.minLength,
         widget.normalCharCount,
         widget.uppercaseCharCount,
+        widget.lowercaseCharCount,
         widget.numericCharCount,
         widget.specialCharCount);
 
@@ -191,6 +202,8 @@ class FlutterPwValidatorState extends State<FlutterPwValidator> {
                     value = widget.normalCharCount;
                   if (entry.key == widget.translatedStrings.uppercaseLetters)
                     value = widget.uppercaseCharCount;
+                  if (entry.key == widget.translatedStrings.lowercaseLetters)
+                    value = widget.lowercaseCharCount;
                   if (entry.key == widget.translatedStrings.numericCharacters)
                     value = widget.numericCharCount;
                   if (entry.key == widget.translatedStrings.specialCharacters)
