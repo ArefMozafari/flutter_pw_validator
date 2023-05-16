@@ -97,7 +97,7 @@ class FlutterPwValidatorState extends State<FlutterPwValidator> {
 
     _hasMinLowercaseChar = _conditionsHelper.checkCondition(
         widget.lowercaseCharCount,
-        _validator.hasMinLowercaseChar,
+        _validator.hasMinLowercase,
         widget.controller,
         widget.translatedStrings.lowercaseLetters,
         _hasMinLowercaseChar);
