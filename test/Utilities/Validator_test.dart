@@ -106,6 +106,58 @@ void main() {
       expect(actualResult, expectedResult);
     });
   });
+  group("Tests for hasMinLowercase() component", () {
+    late Validator validator;
+
+    setUp(() {
+      validator = new Validator();
+    });
+
+    test(
+        'Should return True when lowercaseCount is 2 and password has 2 lowercase character',
+        () {
+      // arrange
+      String password = "abcDEF123";
+      int lowercaseCount = 3;
+      bool expectedResult = true;
+
+      // act
+      bool actualResult = validator.hasMinLowercase(password, lowercaseCount);
+
+      // assert
+      expect(actualResult, expectedResult);
+    });
+
+    test(
+        'Should return False when lowercaseCount is 5 and password has 3 lowercase character',
+        () {
+      // arrange
+      String password = "aBcDeFG123";
+      int lowercaseCount = 5;
+      bool expectedResult = false;
+
+      // act
+      bool actualResult = validator.hasMinLowercase(password, lowercaseCount);
+
+      // assert
+      expect(actualResult, expectedResult);
+    });
+
+    test(
+        'Should return True when lowercaseCount is 3 and password has 5 lowercase character',
+        () {
+      // arrange
+      String password = "abcdeFG123";
+      int lowercaseCount = 3;
+      bool expectedResult = true;
+
+      // act
+      bool actualResult = validator.hasMinLowercase(password, lowercaseCount);
+
+      // assert
+      expect(actualResult, expectedResult);
+    });
+  });
   group("Test for hasMinNumericChar() component", () {
     late Validator validator;
     setUp(() {

@@ -40,7 +40,8 @@ class AppHome extends StatelessWidget {
             new Flexible(flex: 5, child: new FlutterLogo(size: 200)),
             Flexible(
               flex: 7,
-              child: new Column(
+              child: SingleChildScrollView(
+                child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Padding(
@@ -60,11 +61,12 @@ class AppHome extends StatelessWidget {
                     controller: controller,
                     minLength: 8,
                     uppercaseCharCount: 2,
+                    lowercaseCharCount: 3,
                     numericCharCount: 3,
                     specialCharCount: 1,
                     normalCharCount: 3,
                     width: 400,
-                    height: 150,
+                    height: 200,
                     onSuccess: () {
                       print("MATCHED");
                       ScaffoldMessenger.of(context).showSnackBar(new SnackBar(
@@ -76,6 +78,7 @@ class AppHome extends StatelessWidget {
                   ),
                 ],
               ),
+              )
             )
           ],
         ),

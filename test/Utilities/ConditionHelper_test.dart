@@ -16,6 +16,7 @@ void main() {
       int minLength = 10;
       int normalCharCount = 1;
       int uppercaseCharCount = 0;
+      int lowercaseCharCount = 0;
       int numericCharCount = 1;
       int specialCharCount = 0;
 
@@ -23,27 +24,28 @@ void main() {
 
       // act
       conditionsHelper.setSelectedCondition(minLength, normalCharCount,
-          uppercaseCharCount, numericCharCount, specialCharCount);
+          uppercaseCharCount, lowercaseCharCount, numericCharCount, specialCharCount);
       int actualResult = conditionsHelper.getter()!.length;
 
       // assert
       expect(actualResult, expectedResult);
     });
 
-    test('Should _selectedCondition.length==5 when we have 5 condition > 0',
+    test('Should _selectedCondition.length==6 when we have 6 condition > 0',
         () {
       // arrange
       int minLength = 10;
       int normalCharCount = 3;
       int uppercaseCharCount = 2;
+      int lowercaseCharCount = 2;
       int numericCharCount = 2;
       int specialCharCount = 2;
 
-      int expectedResult = 5;
+      int expectedResult = 6;
 
       // act
       conditionsHelper.setSelectedCondition(minLength, normalCharCount,
-          uppercaseCharCount, numericCharCount, specialCharCount);
+          uppercaseCharCount, lowercaseCharCount, numericCharCount, specialCharCount);
       int actualResult = conditionsHelper.getter()!.length;
 
       // assert

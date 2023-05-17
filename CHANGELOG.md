@@ -1,3 +1,7 @@
+## [1.6.0] - 2022-5-17
+
+* New Feature: Validation for lowercase letters. Thanks to [BrunoPereira](https://github.com/BrunoPereira-2331)
+
 ## [1.5.0] - 2022-12-08
 
 * New Feature: Add Key property to access to the validate function (See the example)
