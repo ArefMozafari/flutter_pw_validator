@@ -4,4 +4,5 @@ class SizeConfig {
 
   static double? width;
   static double? height;
+  static double? spaceBetween;
 }

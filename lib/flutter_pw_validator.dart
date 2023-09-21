@@ -18,7 +18,7 @@ class FlutterPwValidator extends StatefulWidget {
       numericCharCount,
       specialCharCount;
   final Color defaultColor, successColor, failureColor;
-  final double width, height;
+  final double width, height, spaceBetween;
   final Function onSuccess;
   final Function? onFail;
   final TextEditingController controller;
@@ -31,6 +31,7 @@ class FlutterPwValidator extends StatefulWidget {
       required this.minLength,
       required this.onSuccess,
       required this.controller,
+      this.spaceBetween = 0,
       this.uppercaseCharCount = 0,
       this.lowercaseCharCount = 0,
       this.numericCharCount = 0,
@@ -45,6 +46,7 @@ class FlutterPwValidator extends StatefulWidget {
     //Initial entered size for global use
     SizeConfig.width = width;
     SizeConfig.height = height;
+    SizeConfig.spaceBetween = spaceBetween;
   }
 
   @override
@@ -168,7 +170,7 @@ class FlutterPwValidatorState extends State<FlutterPwValidator> {
       width: SizeConfig.width,
       height: widget.height,
       child: new Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           new Flexible(
             flex: 3,
@@ -187,6 +189,10 @@ class FlutterPwValidatorState extends State<FlutterPwValidator> {
                     new ValidationBarComponent(color: widget.defaultColor)
               ],
             ),
+          ),
+          new SizedBox(
+            width: SizeConfig.width,
+            height: SizeConfig.spaceBetween,
           ),
           new Flexible(
             flex: 7,
