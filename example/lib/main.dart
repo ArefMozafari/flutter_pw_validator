@@ -65,8 +65,6 @@ class AppHome extends StatelessWidget {
                     numericCharCount: 3,
                     specialCharCount: 1,
                     normalCharCount: 3,
-                    width: 400,
-                    height: 200,
                     onSuccess: () {
                       print("MATCHED");
                       ScaffoldMessenger.of(context).showSnackBar(new SnackBar(
