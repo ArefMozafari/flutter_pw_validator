@@ -21,6 +21,10 @@ class FlutterPwValidator extends StatefulWidget {
   final TextEditingController controller;
   final FlutterPwValidatorStrings? strings;
   final TextStyle? textStyle;
+  final EdgeInsets? padding;
+  final double? validationBarThickness;
+  final bool showValidationBar;
+  final bool showValidationText;
   final Key? key;
 
   FlutterPwValidator(
@@ -39,7 +43,12 @@ class FlutterPwValidator extends StatefulWidget {
       this.strings,
       this.onFail,
       this.textStyle,
-      this.key});
+      this.padding,
+      this.validationBarThickness,
+      this.showValidationBar = true,
+      this.showValidationText = true,
+      this.key
+      });
 
   @override
   State<StatefulWidget> createState() => new FlutterPwValidatorState();
@@ -158,53 +167,60 @@ class FlutterPwValidatorState extends State<FlutterPwValidator> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: MediaQuery.of(context).size.width,
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Iterate through the conditions map values to check if there is any true values then create green ValidationBarComponent.
-              for (bool value in _conditionsHelper.getter()!.values)
-                if (value == true)
-                  ValidationBarComponent(color: widget.successColor),
+      child: Padding(
+        padding: widget.padding ?? EdgeInsets.zero,
+        child: Column(
+          children: [
+            if(widget.showValidationBar || widget.showValidationText) const SizedBox(height: 2),
+            if(widget.showValidationBar) Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Iterate through the conditions map values to check if there is any true values then create green ValidationBarComponent.
+                for (bool value in _conditionsHelper.getter()!.values)
+                  if (value == true)
+                    ValidationBarComponent(color: widget.successColor, thickness: widget.validationBarThickness),
 
-              // Iterate through the conditions map values to check if there is any false values then create red ValidationBarComponent.
-              for (bool value in _conditionsHelper.getter()!.values)
-                if (value == false)
-                  ValidationBarComponent(color: widget.defaultColor)
-            ],
-          ),
-          Column(
-            //Iterate through the condition map entries and generate new ValidationTextWidget for each item in Green or Red Color
-            children: _conditionsHelper.getter()!.entries.map((entry) {
-              int? value;
-              if (entry.key == widget.translatedStrings.atLeast)
-                value = widget.minLength;
-              if (entry.key == widget.translatedStrings.normalLetters)
-                value = widget.normalCharCount;
-              if (entry.key == widget.translatedStrings.uppercaseLetters)
-                value = widget.uppercaseCharCount;
-              if (entry.key == widget.translatedStrings.lowercaseLetters)
-                value = widget.lowercaseCharCount;
-              if (entry.key == widget.translatedStrings.numericCharacters)
-                value = widget.numericCharCount;
-              if (entry.key == widget.translatedStrings.specialCharacters)
-                value = widget.specialCharCount;
-              return new ValidationTextWidget(
-                color: _isFirstRun
-                    ? widget.defaultColor
-                    : entry.value
-                        ? widget.successColor
-                        : widget.failureColor,
-                text: entry.key,
-                textStyle: widget.textStyle,
-                value: value,
-              );
-            }).toList())
-        ],
+                // Iterate through the conditions map values to check if there is any false values then create red ValidationBarComponent.
+                for (bool value in _conditionsHelper.getter()!.values)
+                  if (value == false)
+                    ValidationBarComponent(color: widget.defaultColor)
+              ],
+            ),
+            if(widget.showValidationBar && widget.showValidationText) const SizedBox(height: 10),
+            if(widget.showValidationText) Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: Column(
+                //Iterate through the condition map entries and generate new ValidationTextWidget for each item in Green or Red Color
+                children: _conditionsHelper.getter()!.entries.map((entry) {
+                  int? value;
+                  if (entry.key == widget.translatedStrings.atLeast)
+                    value = widget.minLength;
+                  if (entry.key == widget.translatedStrings.normalLetters)
+                    value = widget.normalCharCount;
+                  if (entry.key == widget.translatedStrings.uppercaseLetters)
+                    value = widget.uppercaseCharCount;
+                  if (entry.key == widget.translatedStrings.lowercaseLetters)
+                    value = widget.lowercaseCharCount;
+                  if (entry.key == widget.translatedStrings.numericCharacters)
+                    value = widget.numericCharCount;
+                  if (entry.key == widget.translatedStrings.specialCharacters)
+                    value = widget.specialCharCount;
+                  return new ValidationTextWidget(
+                    success: _isFirstRun ? null : entry.value,
+                    defaultColor: widget.defaultColor,
+                    successColor: widget.successColor,
+                    failureColor: widget.failureColor,
+                    text: entry.key,
+                    textStyle: widget.textStyle,
+                    value: value,
+                  );
+                }).toList()),
+            )
+          ],
+        ),
       ),
     );
   }
