@@ -3,12 +3,10 @@ library flutter_pw_validator;
 import 'package:flutter/material.dart';
 import 'package:flutter_pw_validator/Utilities/ConditionsHelper.dart';
 import 'package:flutter_pw_validator/Utilities/Validator.dart';
-
 import 'Components/ValidationBarWidget.dart';
 import 'Components/ValidationTextWidget.dart';
 import 'Resource/MyColors.dart';
 import 'Resource/Strings.dart';
-import 'Utilities/SizeConfig.dart';
 
 class FlutterPwValidator extends StatefulWidget {
   final int minLength,
@@ -18,16 +16,19 @@ class FlutterPwValidator extends StatefulWidget {
       numericCharCount,
       specialCharCount;
   final Color defaultColor, successColor, failureColor;
-  final double width, height;
   final Function onSuccess;
   final Function? onFail;
   final TextEditingController controller;
   final FlutterPwValidatorStrings? strings;
+  final TextStyle? textStyle;
+  final EdgeInsets? padding;
+  final double? validationBarThickness;
+  final bool showValidationBar;
+  final bool showValidationText;
   final Key? key;
 
   FlutterPwValidator(
-      {required this.width,
-      required this.height,
+      {
       required this.minLength,
       required this.onSuccess,
       required this.controller,
@@ -41,11 +42,13 @@ class FlutterPwValidator extends StatefulWidget {
       this.failureColor = MyColors.red,
       this.strings,
       this.onFail,
-      this.key}) {
-    //Initial entered size for global use
-    SizeConfig.width = width;
-    SizeConfig.height = height;
-  }
+      this.textStyle,
+      this.padding,
+      this.validationBarThickness,
+      this.showValidationBar = true,
+      this.showValidationText = true,
+      this.key
+      });
 
   @override
   State<StatefulWidget> createState() => new FlutterPwValidatorState();
@@ -164,35 +167,32 @@ class FlutterPwValidatorState extends State<FlutterPwValidator> {
 
   @override
   Widget build(BuildContext context) {
-    return new Container(
-      width: SizeConfig.width,
-      height: widget.height,
-      child: new Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          new Flexible(
-            flex: 3,
-            child: new Row(
+    return SizedBox(
+      width: MediaQuery.of(context).size.width,
+      child: Padding(
+        padding: widget.padding ?? EdgeInsets.zero,
+        child: Column(
+          children: [
+            if(widget.showValidationBar || widget.showValidationText) const SizedBox(height: 2),
+            if(widget.showValidationBar) Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // Iterate through the conditions map values to check if there is any true values then create green ValidationBarComponent.
                 for (bool value in _conditionsHelper.getter()!.values)
                   if (value == true)
-                    new ValidationBarComponent(color: widget.successColor),
+                    ValidationBarComponent(color: widget.successColor, thickness: widget.validationBarThickness),
 
                 // Iterate through the conditions map values to check if there is any false values then create red ValidationBarComponent.
                 for (bool value in _conditionsHelper.getter()!.values)
                   if (value == false)
-                    new ValidationBarComponent(color: widget.defaultColor)
+                    ValidationBarComponent(color: widget.defaultColor)
               ],
             ),
-          ),
-          new Flexible(
-            flex: 7,
-            child: new Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-
+            if(widget.showValidationBar && widget.showValidationText) const SizedBox(height: 10),
+            if(widget.showValidationText) Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: Column(
                 //Iterate through the condition map entries and generate new ValidationTextWidget for each item in Green or Red Color
                 children: _conditionsHelper.getter()!.entries.map((entry) {
                   int? value;
@@ -209,17 +209,18 @@ class FlutterPwValidatorState extends State<FlutterPwValidator> {
                   if (entry.key == widget.translatedStrings.specialCharacters)
                     value = widget.specialCharCount;
                   return new ValidationTextWidget(
-                    color: _isFirstRun
-                        ? widget.defaultColor
-                        : entry.value
-                            ? widget.successColor
-                            : widget.failureColor,
+                    success: _isFirstRun ? null : entry.value,
+                    defaultColor: widget.defaultColor,
+                    successColor: widget.successColor,
+                    failureColor: widget.failureColor,
                     text: entry.key,
+                    textStyle: widget.textStyle,
                     value: value,
                   );
                 }).toList()),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }
