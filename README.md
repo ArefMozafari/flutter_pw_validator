@@ -1,4 +1,10 @@
-# Flutter Password Validator
+<p align="center">
+  <img src="assets/icons/flutter.svg" width="36" alt="Flutter">
+  &nbsp;&nbsp;&nbsp;
+  <img src="assets/icons/dart.svg" width="36" alt="Dart">
+</p>
+
+<h1 align="center">Flutter Password Validator</h1>
 
 ![License](https://img.shields.io/github/license/ArefMozafari/flutter_pw_validator?style=flat-square) ![Pub Version](https://img.shields.io/pub/v/flutter_pw_validator?style=flat-square) ![GitHub stars](https://img.shields.io/github/stars/ArefMozafari/flutter_pw_validator?style=flat-square)
 
