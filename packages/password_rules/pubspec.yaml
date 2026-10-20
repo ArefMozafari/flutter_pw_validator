@@ -1,0 +1,22 @@
+name: password_rules
+description: >-
+  Password policy as a plain Dart value: length and character-class counts,
+  custom rules, a NIST preset, a common-password blocklist and a generator.
+version: 1.0.0
+repository: https://github.com/ArefMozafari/flutter_pw_validator/tree/master/packages/password_rules
+issue_tracker: https://github.com/ArefMozafari/flutter_pw_validator/issues
+topics:
+  - password
+  - validation
+  - security
+  - nist
+
+environment:
+  sdk: ^3.8.0
+
+dependencies:
+  characters: ^1.4.0
+
+dev_dependencies:
+  lints: ^6.0.0
+  test: ^1.25.0
