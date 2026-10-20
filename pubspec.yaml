@@ -11,6 +11,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  password_rules: ^1.0.0
 
 dev_dependencies:
   flutter_lints: ^6.0.0

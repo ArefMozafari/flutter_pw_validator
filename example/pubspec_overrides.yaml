@@ -1,0 +1,4 @@
+# Resolves password_rules from this repository while developing.
+dependency_overrides:
+  password_rules:
+    path: ../packages/password_rules

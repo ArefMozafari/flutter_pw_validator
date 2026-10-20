@@ -1,88 +1,129 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pw_validator/flutter_pw_validator.dart';
 
-void main() {
-  runApp(MyApp());
+void main() => runApp(const ExampleApp());
+
+/// Shows a password field with the validator under it, a confirmation field,
+/// a button that fills both with a generated password, and a submit button
+/// that is enabled only while every rule passes.
+class ExampleApp extends StatelessWidget {
+  /// Creates the example app.
+  const ExampleApp({super.key});
+
+  @override
+  Widget build(BuildContext context) => MaterialApp(
+    title: 'flutter_pw_validator',
+    theme: ThemeData(colorSchemeSeed: Colors.indigo),
+    darkTheme: ThemeData(
+      colorSchemeSeed: Colors.indigo,
+      brightness: Brightness.dark,
+    ),
+    home: const SignUpPage(),
+  );
 }
 
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+/// The one screen of the example.
+class SignUpPage extends StatefulWidget {
+  /// Creates the sign-up screen.
+  const SignUpPage({super.key});
+
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-          visualDensity: VisualDensity.adaptivePlatformDensity,
-        ),
-        home: new Scaffold(
-            appBar: new AppBar(
-              title: new Text("Flutter Pw Validator"),
-            ),
-            body: new AppHome()));
+  State<SignUpPage> createState() => _SignUpPageState();
+}
+
+class _SignUpPageState extends State<SignUpPage> {
+  static const double _pagePadding = 24;
+  static const double _fieldGap = 12;
+  static const double _buttonGap = 32;
+
+  static bool _hasNoSpaces(String password) => !password.contains(' ');
+
+  final TextEditingController _controller = TextEditingController();
+  final TextEditingController _confirmController = TextEditingController();
+  final GlobalKey<FlutterPwValidatorState> _validatorKey =
+      GlobalKey<FlutterPwValidatorState>();
+  late final PasswordRules _rules = PasswordRules(
+    minLength: 8,
+    uppercase: 1,
+    lowercase: 1,
+    digits: 1,
+    special: 1,
+    custom: [
+      const CustomRule(label: 'No spaces', test: _hasNoSpaces),
+      MatchRule(() => _confirmController.text),
+    ],
+  );
+  bool _isValid = false;
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    _confirmController.dispose();
+    super.dispose();
   }
-}
 
-class AppHome extends StatelessWidget {
-  final TextEditingController controller = new TextEditingController();
+  void _suggest() {
+    final password = _rules.generate();
+    _confirmController.text = password;
+    _controller.text = password;
+  }
 
-  ///Passing a key to access the validate function
-  final GlobalKey<FlutterPwValidatorState> validatorKey = GlobalKey<FlutterPwValidatorState>();
-
-  @override
-  Widget build(BuildContext context) {
-    return new Stack(children: [
-      Padding(
-        padding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 12.5),
-        child: Column(
-          children: [
-            new Flexible(flex: 5, child: new FlutterLogo(size: 200)),
-            Flexible(
-              flex: 7,
-              child: SingleChildScrollView(
-                child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 2.0),
-                    child: new TextField(
-                        controller: controller,
-                        decoration: new InputDecoration(
-                            hintText: "Password",
-                            border: new OutlineInputBorder(
-                                borderSide: BorderSide()))),
-                  ),
-                  new SizedBox(
-                    height: 5,
-                  ),
-                  new FlutterPwValidator(
-                    key: validatorKey,
-                    controller: controller,
-                    minLength: 8,
-                    uppercaseCharCount: 2,
-                    lowercaseCharCount: 3,
-                    numericCharCount: 3,
-                    specialCharCount: 1,
-                    normalCharCount: 3,
-                    width: 400,
-                    height: 200,
-                    onSuccess: () {
-                      print("MATCHED");
-                      ScaffoldMessenger.of(context).showSnackBar(new SnackBar(
-                          content: new Text("Password is matched")));
-                    },
-                    onFail: () {
-                      print("NOT MATCHED");
-                    },
-                  ),
-                ],
-              ),
-              )
-            )
-          ],
-        ),
+  void _submit() {
+    final isValid = _validatorKey.currentState!.validate();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(isValid ? 'Password accepted' : 'Password rejected'),
       ),
-    ]);
+    );
   }
+
+  @override
+  Widget build(BuildContext context) => Scaffold(
+    appBar: AppBar(title: const Text('flutter_pw_validator')),
+    body: ListView(
+      padding: const EdgeInsets.all(_pagePadding),
+      children: [
+        TextField(
+          controller: _controller,
+          obscureText: true,
+          autocorrect: false,
+          enableSuggestions: false,
+          decoration: const InputDecoration(
+            labelText: 'Password',
+            border: OutlineInputBorder(),
+          ),
+        ),
+        const SizedBox(height: _fieldGap),
+        FlutterPwValidator(
+          key: _validatorKey,
+          controller: _controller,
+          rules: _rules,
+          listenables: [_confirmController],
+          showStrengthLabel: true,
+          onChanged: (validation) =>
+              setState(() => _isValid = validation.isValid),
+        ),
+        const SizedBox(height: _fieldGap),
+        TextField(
+          controller: _confirmController,
+          obscureText: true,
+          autocorrect: false,
+          enableSuggestions: false,
+          decoration: const InputDecoration(
+            labelText: 'Confirm password',
+            border: OutlineInputBorder(),
+          ),
+        ),
+        const SizedBox(height: _buttonGap),
+        TextButton(
+          onPressed: _suggest,
+          child: const Text('Suggest a strong password'),
+        ),
+        FilledButton(
+          onPressed: _isValid ? _submit : null,
+          child: const Text('Sign up'),
+        ),
+      ],
+    ),
+  );
 }
