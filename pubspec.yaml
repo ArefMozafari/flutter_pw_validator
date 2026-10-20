@@ -1,8 +1,20 @@
 name: flutter_pw_validator
-description: Flutter Pw Validator package helps you to validate sign in user-entered password with your rules.
-version: 1.6.0
-homepage: https://github.com/ArefMozafari/flutter_pw_validator
-maintainer: Aref Mozafari (@ArefMozafari)
+description: >-
+  Live password rules under any TextField: a progress bar and a checklist of
+  the rules still unmet, with Unicode-aware counting and rules you can reuse
+  in forms.
+version: 2.0.0
+repository: https://github.com/ArefMozafari/flutter_pw_validator
+issue_tracker: https://github.com/ArefMozafari/flutter_pw_validator/issues
+topics:
+  - password
+  - validation
+  - form
+  - widget
+  - ui
+screenshots:
+  - description: The validator under a password field, before and after typing.
+    path: screenshots/validator.png
 
 environment:
   sdk: ^3.8.0
@@ -17,5 +29,3 @@ dev_dependencies:
   flutter_lints: ^6.0.0
   flutter_test:
     sdk: flutter
-
-flutter:
