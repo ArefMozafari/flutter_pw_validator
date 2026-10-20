@@ -1,5 +1,0 @@
-# Resolves password_rules from this repository while developing; pub does not
-# publish this file, so the published package depends on the hosted version.
-dependency_overrides:
-  password_rules:
-    path: packages/password_rules

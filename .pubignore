@@ -1,8 +1,0 @@
-# Replaces .gitignore for publishing; pub always drops .git and .dart_tool.
-build/
-pubspec.lock
-packages/
-.github/
-example/pubspec_overrides.yaml
-example/build/
-example/.dart_tool/
