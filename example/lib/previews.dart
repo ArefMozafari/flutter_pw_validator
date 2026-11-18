@@ -1,6 +1,6 @@
 // Widget previews for the Flutter widget previewer: open this file in an
 // IDE with the previewer, or run `flutter widget-preview start` in example/.
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/widget_previews.dart';
 import 'package:flutter_pw_validator/flutter_pw_validator.dart';
 
