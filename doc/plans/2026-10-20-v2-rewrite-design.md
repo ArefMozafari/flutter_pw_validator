@@ -127,7 +127,8 @@ class FlutterPwValidatorState {
 - Builders: `itemBuilder` replaces the whole row, `barBuilder` the whole bar; both receive
   the resolved state, never raw colors, so a custom look stays the caller's.
 - Accessibility: a default row is one semantics node, "label, met" or "label, not met"
-  (just the label while neutral), with the words from `strings`. A built row keeps its own.
+  (just the label while neutral), with the words from `strings`. A built row keeps its own
+  labels. Both kinds are `container` nodes, so they stay separate in a host with no route.
 - Custom rules and `maxLength` came from the competitor survey (`fancy_password_field`,
   `password_rule_check`, `password_validator_mate`): the rule set had to be open before 2.0
   shipped, since an enum cannot grow later without a break. `strengthOf` is the answer to
@@ -154,7 +155,8 @@ generator, a bundled breached-password list, keyboard-pattern detection.
 lib/flutter_pw_validator.dart            re-exports password_rules, exports the widget
 lib/src/flutter_pw_validator.dart        widget, state, private bar and row widgets,
                                          FlutterPwValidatorStrings alias
-test/src/flutter_pw_validator_test.dart  widget tests
+lib/src/password_rule_status_icon.dart   PasswordRuleStatus, the drawn ring, check and cross
+test/src/<same name>_test.dart           widget tests, on a plain WidgetsApp
 example/lib/main.dart                    sign-up screen: field, validator, confirmation,
                                          suggest and submit buttons
 example/lib/previews.dart                @Preview functions for the widget previewer
@@ -188,6 +190,28 @@ tests without their dependencies.
   to success, since a mid level in the outline color would be invisible on the track.
 - Shake: only `validate()` from a key shakes, never typing; off under reduced motion.
 - `@Preview` functions in the example for the widget previewer.
+
+## Widgets only, from 2.1.0
+
+Flutter 3.50 deprecated `package:flutter/material.dart` in favor of the standalone
+`package:material_ui`, and pub.dev took 10 points for the import. The widget used Material for
+only two things, `Theme.of` for three default values and three `Icons` constants, and exposed
+no Material type in its API. So it now imports `package:flutter/widgets.dart` alone:
+
+- Text style: the surrounding `DefaultTextStyle`, which a Material or Cupertino app sets from
+  its theme, so labels still follow the app.
+- Colors: `defaultColor` is the text color at 60 percent opacity, or the 1.x gray without a
+  text color; `failureColor` is the 1.x red. No Material color scheme is read.
+- Icons: `PasswordRuleStatusIcon` draws the ring, check and cross on the 24-unit icon grid,
+  the check and cross erased from a filled disc so the background shows through. The three
+  `IconData` parameters stay, now optional, for anyone who wants an icon font.
+- Tests run on a plain `WidgetsApp`, which proves the package needs nothing from Material and
+  surfaced that rows relied on a route to stay separate semantics nodes.
+
+Rejected: switching the import to `package:material_ui`. Flutter's guide treats that as a major
+release, and an app still on `package:flutter/material.dart` would get material_ui's fallback
+light theme, with dark labels in a dark app. Shipped as 2.1.0: no signature lost a type, and
+only the three icon fields became nullable.
 
 ## Tooling decisions
 

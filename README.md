@@ -16,7 +16,7 @@ Live password rules under any `TextField`: a progress bar and a checklist of
 the rules still unmet, updated on every keystroke.
 
 <p align="center">
-  <img src="screenshots/validator.png" alt="The validator under a password field: empty, with a partial password, and with a valid one">
+  <img src="screenshots/validator.png" alt="The validator in a dark theme: empty, with a partial password, and with a valid one">
 </p>
 
 ## Features
@@ -35,9 +35,11 @@ the rules still unmet, updated on every keystroke.
 - Every state change animates, the widget shakes when a submit finds the
   password invalid, and both stand still when the platform asks for reduced
   motion.
-- Colors and text come from your theme; every visual detail is a parameter,
-  the bar comes segmented or continuous, and builders let you draw the rows
-  or the bar yourself.
+- Depends only on `flutter/widgets`, so it works the same under
+  `material_ui`, the older `flutter/material`, Cupertino, or a design system of
+  your own. Labels take the surrounding text style, which your theme sets.
+- Every visual detail is a parameter, the bar comes segmented or continuous,
+  and builders let you draw the rows or the bar yourself.
 - Optional strength label: Weak, Fair, Good, Strong.
 - Translate the labels with one constructor call; Persian ships complete.
 
@@ -45,7 +47,7 @@ the rules still unmet, updated on every keystroke.
 
 ```yaml
 dependencies:
-  flutter_pw_validator: ^2.0.0
+  flutter_pw_validator: ^2.1.0
 ```
 
 ## Use
@@ -183,10 +185,10 @@ if (!validation.isValid) {
 
 | Parameter | Default |
 |-----------|---------|
-| `defaultColor` | `colorScheme.outline`, used while the field is empty |
+| `defaultColor` | the label color at 60 percent opacity, used while the field is empty and for the bar's empty track; the gray of version 1 when the label style has no color |
 | `successColor` | the green of version 1 |
-| `failureColor` | `colorScheme.error` |
-| `textStyle` | `textTheme.bodyMedium` |
+| `failureColor` | the red of version 1 |
+| `textStyle` | the surrounding `DefaultTextStyle`, which a Material app sets to its theme's `bodyMedium` |
 | `padding` | `EdgeInsets.zero` |
 | `spacing` | `12`, between the bar and the list |
 | `barThickness` | `4` |
@@ -195,7 +197,7 @@ if (!validation.isValid) {
 | `showStrengthLabel` | `false` |
 | `shakeOnInvalid` | `true`; `validate()` from a key shakes the widget when the password is invalid, typing never does |
 | `listenables` | `[]`; other controllers that should trigger a re-check, such as a confirmation field |
-| `neutralIcon`, `successIcon`, `failureIcon` | `Icons.radio_button_unchecked`, `Icons.check_circle`, `Icons.cancel` |
+| `neutralIcon`, `successIcon`, `failureIcon` | `null`, the ring, check and cross that `PasswordRuleStatusIcon` draws; pass an `IconData` such as `Icons.check` to use an icon font instead |
 | `animationDuration` | `200ms`; zero when the platform disables animations |
 | `itemBuilder`, `barBuilder` | `null`, the default row and bar |
 | `strengthOf` | `null`, the share of passing rules |
@@ -230,7 +232,9 @@ FlutterPwValidator(
 `itemBuilder` receives a `PasswordRuleItem` with the rule (a `CountRule`
 carries its `count`), its label and its status (`neutral`, `passed` or
 `failed`). `barBuilder` receives the number of passing rules and the number of
-active rules. A built row owns its own semantics.
+active rules. A built row owns its labels for screen readers; the widget only
+keeps each row a separate node. `PasswordRuleStatusIcon(status: item.status,
+color: ...)` draws the default icon if you want it in a custom row.
 
 ```dart
 FlutterPwValidator(
