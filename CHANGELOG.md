@@ -1,3 +1,25 @@
+## 2.1.0
+
+* The package now depends only on `package:flutter/widgets.dart`, so it works
+  the same in apps on `package:material_ui`, the older
+  `package:flutter/material.dart`, Cupertino, or a design system of their own.
+  Flutter 3.50 deprecated `package:flutter/material.dart`, and the package no
+  longer imports it.
+* The rule icons are drawn by the new `PasswordRuleStatusIcon` widget instead
+  of the Material icon font, so they need no `uses-material-design`. Reuse it
+  in an `itemBuilder` to keep the default look. `neutralIcon`, `successIcon`
+  and `failureIcon` are now optional; pass an `IconData` to use an icon font.
+* Default look: labels take the surrounding `DefaultTextStyle`, which a
+  Material app sets to its theme's `bodyMedium` as before. `defaultColor` is
+  now that text color at 60 percent opacity, or the gray of version 1 when the
+  style has no color, and `failureColor` is the red of version 1. Both used to
+  come from the Material color scheme; pass `colorScheme.outline` and
+  `colorScheme.error` to keep that look.
+* Each rule row, built or default, is now a separate node for screen readers
+  wherever the widget is placed. Before, a host without a route merged all
+  rules into one announcement.
+* The example app and previews use `package:material_ui`.
+
 ## 2.0.0
 
 A rewrite from scratch. Breaking changes are listed under Migration.
