@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_pw_validator/flutter_pw_validator.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -7,9 +7,26 @@ const Color _successColor = Color(0xFF222222);
 const Color _failureColor = Color(0xFF333333);
 const Duration _halfAnimation = Duration(milliseconds: 100);
 
-Widget _harness(Widget child, {ThemeData? theme}) => MaterialApp(
-  theme: theme,
-  home: Scaffold(body: child),
+const Color _ambientTextColor = Color(0xFF202020);
+const TextStyle _ambientStyle = TextStyle(
+  fontSize: 14,
+  color: _ambientTextColor,
+);
+
+const Color _versionOneGray = Color(0xFFD3D3D3);
+const Color _versionOneGreen = Color(0xFF2EE292);
+const Color _versionOneRed = Color(0xFFF9433E);
+const IconData _customIcon = IconData(0xe000);
+
+/// Hosts [child] in a plain widgets app with [style] as the surrounding text
+/// style, so the tests prove the package needs nothing from Material.
+Widget _harness(Widget child, {TextStyle style = _ambientStyle}) => WidgetsApp(
+  color: const Color(0xFFFFFFFF),
+  builder: (context, navigator) => DefaultTextStyle(style: style, child: child),
+);
+
+Finder _statusIcons(PasswordRuleStatus status) => find.byWidgetPredicate(
+  (widget) => widget is PasswordRuleStatusIcon && widget.status == status,
 );
 
 FlutterPwValidator _validator({
@@ -146,9 +163,9 @@ void main() {
 
       expect(_segmentColors(tester), [_defaultColor, _defaultColor]);
       expect(_textColor(tester, 'At least 8 characters'), _defaultColor);
-      expect(find.byIcon(Icons.radio_button_unchecked), findsNWidgets(2));
-      expect(find.byIcon(Icons.check_circle), findsNothing);
-      expect(find.byIcon(Icons.cancel), findsNothing);
+      expect(_statusIcons(PasswordRuleStatus.neutral), findsNWidgets(2));
+      expect(_statusIcons(PasswordRuleStatus.passed), findsNothing);
+      expect(_statusIcons(PasswordRuleStatus.failed), findsNothing);
     });
 
     testWidgets('should color each rule by its result once text exists', (
@@ -161,9 +178,9 @@ void main() {
 
       expect(_textColor(tester, 'At least 8 characters'), _failureColor);
       expect(_textColor(tester, '1 digit'), _successColor);
-      expect(find.byIcon(Icons.cancel), findsOneWidget);
-      expect(find.byIcon(Icons.check_circle), findsOneWidget);
-      expect(find.byIcon(Icons.radio_button_unchecked), findsNothing);
+      expect(_statusIcons(PasswordRuleStatus.failed), findsOneWidget);
+      expect(_statusIcons(PasswordRuleStatus.passed), findsOneWidget);
+      expect(_statusIcons(PasswordRuleStatus.neutral), findsNothing);
       expect(_segmentColors(tester), [_successColor, _defaultColor]);
     });
 
@@ -179,7 +196,7 @@ void main() {
 
       expect(_textColor(tester, '1 digit'), _defaultColor);
       expect(_segmentColors(tester), [_defaultColor, _defaultColor]);
-      expect(find.byIcon(Icons.radio_button_unchecked), findsNWidgets(2));
+      expect(_statusIcons(PasswordRuleStatus.neutral), findsNWidgets(2));
     });
 
     testWidgets('should show a pre-filled controller as evaluated', (
@@ -192,28 +209,20 @@ void main() {
       expect(_segmentColors(tester), [_successColor, _successColor]);
     });
 
-    testWidgets('should take colors and text style from the theme by default', (
+    testWidgets('should take the text style from the surrounding text style', (
       tester,
     ) async {
-      const outline = Color(0xFF444444);
-      const error = Color(0xFF555555);
       const fontSize = 23.0;
-      final theme = ThemeData(
-        colorScheme: const ColorScheme.light(outline: outline, error: error),
-        textTheme: const TextTheme(bodyMedium: TextStyle(fontSize: fontSize)),
-      );
       await tester.pumpWidget(
         _harness(
           FlutterPwValidator(
             controller: controller,
             rules: const PasswordRules(minLength: 8),
           ),
-          theme: theme,
+          style: const TextStyle(fontSize: fontSize, color: _ambientTextColor),
         ),
       );
 
-      expect(_textColor(tester, 'At least 8 characters'), outline);
-      expect(_renderedTextColor(tester, 'At least 8 characters'), outline);
       expect(
         tester
             .widget<AnimatedDefaultTextStyle>(
@@ -228,11 +237,82 @@ void main() {
             .fontSize,
         fontSize,
       );
+    });
 
-      controller.text = 'a';
+    testWidgets('should default the neutral color to the faded text color', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        _harness(
+          FlutterPwValidator(
+            controller: controller,
+            rules: const PasswordRules(minLength: 8),
+          ),
+        ),
+      );
+
+      expect(
+        _textColor(tester, 'At least 8 characters'),
+        _ambientTextColor.withValues(alpha: 0.6),
+      );
+    });
+
+    testWidgets(
+      'should default the neutral color to the version 1 gray without a text color',
+      (tester) async {
+        await tester.pumpWidget(
+          _harness(
+            FlutterPwValidator(
+              controller: controller,
+              rules: const PasswordRules(minLength: 8),
+            ),
+            style: const TextStyle(fontSize: 14),
+          ),
+        );
+
+        expect(_textColor(tester, 'At least 8 characters'), _versionOneGray);
+      },
+    );
+
+    testWidgets(
+      'should default the pass and fail colors to the version 1 green and red',
+      (tester) async {
+        await tester.pumpWidget(
+          _harness(
+            FlutterPwValidator(
+              controller: controller,
+              rules: const PasswordRules(minLength: 8, digits: 1),
+            ),
+          ),
+        );
+
+        controller.text = 'a1';
+        await tester.pumpAndSettle();
+
+        expect(_textColor(tester, 'At least 8 characters'), _versionOneRed);
+        expect(_textColor(tester, '1 digit'), _versionOneGreen);
+      },
+    );
+
+    testWidgets('should draw a given IconData instead of the built-in icon', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        _harness(
+          FlutterPwValidator(
+            controller: controller,
+            rules: const PasswordRules(minLength: 8, digits: 1),
+            successIcon: _customIcon,
+          ),
+        ),
+      );
+
+      controller.text = 'a1';
       await tester.pumpAndSettle();
 
-      expect(_textColor(tester, 'At least 8 characters'), error);
+      expect(find.byIcon(_customIcon), findsOneWidget);
+      expect(_statusIcons(PasswordRuleStatus.passed), findsNothing);
+      expect(_statusIcons(PasswordRuleStatus.failed), findsOneWidget);
     });
 
     testWidgets('should hide the bar when showBar is false', (tester) async {

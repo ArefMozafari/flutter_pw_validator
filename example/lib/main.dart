@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_pw_validator/flutter_pw_validator.dart';
 
 void main() => runApp(const ExampleApp());

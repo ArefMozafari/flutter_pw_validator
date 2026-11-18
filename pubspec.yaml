@@ -3,7 +3,7 @@ description: >-
   Live password rules under any TextField: a progress bar and a checklist of
   the rules still unmet, with Unicode-aware counting and rules you can reuse
   in forms.
-version: 2.0.0
+version: 2.1.0
 repository: https://github.com/ArefMozafari/flutter_pw_validator
 issue_tracker: https://github.com/ArefMozafari/flutter_pw_validator/issues
 topics:
@@ -13,7 +13,7 @@ topics:
   - widget
   - ui
 screenshots:
-  - description: The validator under a password field, before and after typing.
+  - description: The validator in a dark theme, before and after typing.
     path: screenshots/validator.png
 
 environment:

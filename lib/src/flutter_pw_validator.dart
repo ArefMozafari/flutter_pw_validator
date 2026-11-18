@@ -1,7 +1,9 @@
 import 'dart:math';
 
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:password_rules/password_rules.dart';
+
+import 'password_rule_status_icon.dart';
 
 /// The labels the widget shows; the name 1.x users know for
 /// [PasswordRuleStrings].
@@ -10,6 +12,17 @@ typedef FlutterPwValidatorStrings = PasswordRuleStrings;
 /// The success color of 1.x, kept as the default so existing apps look the
 /// same after upgrading.
 const Color _successGreen = Color(0xFF2EE292);
+
+/// The failure color of 1.x, the default since the widget stopped reading a
+/// Material color scheme.
+const Color _failureRed = Color(0xFFF9433E);
+
+/// The neutral color of 1.x, used when the surrounding text style has no
+/// color to derive one from.
+const Color _neutralGray = Color(0xFFD3D3D3);
+
+/// How much of the text color's opacity the neutral color keeps.
+const double _neutralOpacity = 0.6;
 
 /// Vertical gap between two rule rows.
 const double _rowSpacing = 4;
@@ -67,18 +80,6 @@ typedef PasswordBarBuilder =
 /// with an entropy estimator.
 typedef PasswordStrengthCalculator =
     PasswordStrength Function(String password, PasswordValidation validation);
-
-/// The state of one rule as the widget shows it.
-enum PasswordRuleStatus {
-  /// No text has been entered yet.
-  neutral,
-
-  /// The rule passes.
-  passed,
-
-  /// The rule fails.
-  failed,
-}
 
 /// Everything a [PasswordRuleItemBuilder] needs to draw one rule.
 class PasswordRuleItem {
@@ -180,9 +181,10 @@ class _ContinuousBar extends StatelessWidget {
 }
 
 /// One rule: an icon and its label, both in [color], read by screen readers
-/// as [semanticsLabel].
+/// as [semanticsLabel]. Without an [icon] it draws [PasswordRuleStatusIcon].
 class _RuleRow extends StatelessWidget {
   const _RuleRow({
+    required this.status,
     required this.icon,
     required this.label,
     required this.semanticsLabel,
@@ -191,7 +193,8 @@ class _RuleRow extends StatelessWidget {
     required this.duration,
   });
 
-  final IconData icon;
+  final PasswordRuleStatus status;
+  final IconData? icon;
   final String label;
   final String semanticsLabel;
   final Color color;
@@ -199,42 +202,67 @@ class _RuleRow extends StatelessWidget {
   final Duration duration;
 
   @override
-  Widget build(BuildContext context) => Semantics(
-    label: semanticsLabel,
-    excludeSemantics: true,
-    child: Row(
-      spacing: _iconGap,
-      children: [
-        AnimatedSwitcher(
-          duration: duration,
-          child: Icon(
-            icon,
-            key: ValueKey<(IconData, Color)>((icon, color)),
-            size: (textStyle.fontSize ?? _fallbackFontSize) * _iconScale,
-            color: color,
-          ),
-        ),
-        Expanded(
-          child: AnimatedDefaultTextStyle(
+  Widget build(BuildContext context) {
+    final iconSize = (textStyle.fontSize ?? _fallbackFontSize) * _iconScale;
+    final key = ValueKey<(PasswordRuleStatus, IconData?, Color)>((
+      status,
+      icon,
+      color,
+    ));
+    // Each rule is its own node, so a screen reader steps through the rules
+    // one by one even when no ancestor splits its children apart.
+    return Semantics(
+      container: true,
+      label: semanticsLabel,
+      excludeSemantics: true,
+      child: Row(
+        spacing: _iconGap,
+        children: [
+          AnimatedSwitcher(
             duration: duration,
-            style: textStyle.copyWith(color: color),
-            child: Text(label),
+            child: switch (icon) {
+              null => PasswordRuleStatusIcon(
+                key: key,
+                status: status,
+                color: color,
+                size: iconSize,
+              ),
+              final IconData iconData => Icon(
+                iconData,
+                key: key,
+                size: iconSize,
+                color: color,
+              ),
+            },
           ),
-        ),
-      ],
-    ),
-  );
+          Expanded(
+            child: AnimatedDefaultTextStyle(
+              duration: duration,
+              style: textStyle.copyWith(color: color),
+              child: Text(label),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
 
 /// Shows how far the text in [controller] is from satisfying [rules].
 ///
 /// Place it under the password field and give it the same controller. It
 /// fills the available width and takes the height it needs. While the field
-/// is empty every rule is drawn in [defaultColor] with [neutralIcon];
-/// afterwards each rule is drawn in [successColor] or [failureColor] with
-/// [successIcon] or [failureIcon], and the bar fills one segment per passing
-/// rule. Every change animates over [animationDuration] unless the platform
-/// asks for animations to be disabled.
+/// is empty every rule is drawn in [defaultColor] with a ring; afterwards
+/// each rule is drawn in [successColor] with a check or in [failureColor] with
+/// a cross, and the bar fills one segment per passing rule. Every change
+/// animates over [animationDuration] unless the platform asks for animations
+/// to be disabled.
+///
+/// It depends only on `package:flutter/widgets.dart`, so it works the same
+/// under `package:material_ui`, the older `package:flutter/material.dart`,
+/// Cupertino, or a design system of your own. The labels take the
+/// surrounding text style, which Material and Cupertino apps set from their
+/// theme.
 ///
 /// ```dart
 /// FlutterPwValidator(
@@ -273,9 +301,9 @@ class FlutterPwValidator extends StatefulWidget {
     this.showList = true,
     this.showStrengthLabel = false,
     this.shakeOnInvalid = true,
-    this.neutralIcon = Icons.radio_button_unchecked,
-    this.successIcon = Icons.check_circle,
-    this.failureIcon = Icons.cancel,
+    this.neutralIcon,
+    this.successIcon,
+    this.failureIcon,
     this.animationDuration = const Duration(milliseconds: 200),
     this.itemBuilder,
     this.barBuilder,
@@ -305,17 +333,20 @@ class FlutterPwValidator extends StatefulWidget {
   /// The labels of the rules and of the strength levels.
   final FlutterPwValidatorStrings strings;
 
-  /// Color of a rule before any text is entered. Defaults to the theme's
-  /// `colorScheme.outline`.
+  /// Color of a rule before any text is entered, and of the bar's empty
+  /// track. Defaults to the label color at 60 percent opacity, or the gray of
+  /// version 1 when the label style has no color.
   final Color? defaultColor;
 
   /// Color of a passing rule. Defaults to the green of version 1.
   final Color? successColor;
 
-  /// Color of a failing rule. Defaults to the theme's `colorScheme.error`.
+  /// Color of a failing rule. Defaults to the red of version 1.
   final Color? failureColor;
 
-  /// Style of the rule labels. Defaults to the theme's `bodyMedium`.
+  /// Style of the rule labels. Defaults to the surrounding
+  /// `DefaultTextStyle`, which a Material app sets to its theme's
+  /// `bodyMedium`.
   final TextStyle? textStyle;
 
   /// Padding around the whole widget.
@@ -345,14 +376,17 @@ class FlutterPwValidator extends StatefulWidget {
   /// password is invalid. Typing never shakes.
   final bool shakeOnInvalid;
 
-  /// Icon of every rule before any text is entered.
-  final IconData neutralIcon;
+  /// Icon of every rule before any text is entered, from an icon font such as
+  /// `Icons`. Without one the widget draws [PasswordRuleStatusIcon]'s ring.
+  final IconData? neutralIcon;
 
-  /// Icon of a passing rule.
-  final IconData successIcon;
+  /// Icon of a passing rule. Without one the widget draws
+  /// [PasswordRuleStatusIcon]'s check.
+  final IconData? successIcon;
 
-  /// Icon of a failing rule.
-  final IconData failureIcon;
+  /// Icon of a failing rule. Without one the widget draws
+  /// [PasswordRuleStatusIcon]'s cross.
+  final IconData? failureIcon;
 
   /// How long color and icon changes take. Ignored, as zero, when the
   /// platform disables animations.
@@ -474,9 +508,12 @@ class FlutterPwValidatorState extends State<FlutterPwValidator>
   }) {
     final builder = widget.itemBuilder;
     if (builder != null) {
-      return builder(context, item);
+      // A built row keeps its own labels but stays a node of its own, like
+      // the default row.
+      return Semantics(container: true, child: builder(context, item));
     }
     return _RuleRow(
+      status: item.status,
       icon: switch (item.status) {
         PasswordRuleStatus.neutral => widget.neutralIcon,
         PasswordRuleStatus.passed => widget.successIcon,
@@ -497,12 +534,14 @@ class FlutterPwValidatorState extends State<FlutterPwValidator>
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final defaultColor = widget.defaultColor ?? theme.colorScheme.outline;
+    final textStyle = widget.textStyle ?? DefaultTextStyle.of(context).style;
+    final textColor = textStyle.color;
+    final defaultColor =
+        widget.defaultColor ??
+        textColor?.withValues(alpha: textColor.a * _neutralOpacity) ??
+        _neutralGray;
     final successColor = widget.successColor ?? _successGreen;
-    final failureColor = widget.failureColor ?? theme.colorScheme.error;
-    final textStyle =
-        widget.textStyle ?? theme.textTheme.bodyMedium ?? const TextStyle();
+    final failureColor = widget.failureColor ?? _failureRed;
     final duration = MediaQuery.disableAnimationsOf(context)
         ? Duration.zero
         : widget.animationDuration;
