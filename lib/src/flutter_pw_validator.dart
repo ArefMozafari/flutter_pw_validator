@@ -3,6 +3,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:password_rules/password_rules.dart';
 
+import 'password_rule_status_icon.dart';
+
 /// The labels the widget shows; the name 1.x users know for
 /// [PasswordRuleStrings].
 typedef FlutterPwValidatorStrings = PasswordRuleStrings;
@@ -67,18 +69,6 @@ typedef PasswordBarBuilder =
 /// with an entropy estimator.
 typedef PasswordStrengthCalculator =
     PasswordStrength Function(String password, PasswordValidation validation);
-
-/// The state of one rule as the widget shows it.
-enum PasswordRuleStatus {
-  /// No text has been entered yet.
-  neutral,
-
-  /// The rule passes.
-  passed,
-
-  /// The rule fails.
-  failed,
-}
 
 /// Everything a [PasswordRuleItemBuilder] needs to draw one rule.
 class PasswordRuleItem {

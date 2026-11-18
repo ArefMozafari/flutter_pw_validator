@@ -8,3 +8,4 @@ library;
 export 'package:password_rules/password_rules.dart';
 
 export 'src/flutter_pw_validator.dart';
+export 'src/password_rule_status_icon.dart';
